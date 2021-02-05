@@ -105,7 +105,7 @@ public class InputManager : MonoBehaviour
             currentAngleX -= Input.GetAxis("Mouse Y") * lookSpeed;
             currentAngleX = Mathf.Clamp(currentAngleX, -90, 90);
             //print(currentAngleX);
-            currentAngleY -= Input.GetAxis("Mouse X") * lookSpeed;
+            currentAngleY -= Input.GetAxis("Mouse X") * -lookSpeed;
         }
         else if (Input.GetAxis("Pitch") != 0 || Input.GetAxis("Roll") != 0)
         {
