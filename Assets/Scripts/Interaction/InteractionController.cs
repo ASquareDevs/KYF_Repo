@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class InteractionController : MonoBehaviour
 {
+    #region Variables
+
     [Header("Interaction")]
     public IInteractable targetInteractable; //Reference to currently detected interactable
     public IEquipable targetEquipable;
@@ -15,13 +17,21 @@ public class InteractionController : MonoBehaviour
     [Header("Object to Equip")]
     public GameObject objectToPickUp;
 
+    #endregion
+
+
+    #region Monobehaviors
 
     private void Update()
     {
         ReadForInteractable();
     } // END Update
 
-    
+    #endregion
+
+
+    #region Methods
+
     /// <summary>
     /// This will check if object we are casting to is of IInteractable
     /// If not, we have not casted to a valid IInteractable object
@@ -66,5 +76,7 @@ public class InteractionController : MonoBehaviour
             }
         }
     } // END ReadForInteractable
+
+    #endregion
 
 } //END InteractionController

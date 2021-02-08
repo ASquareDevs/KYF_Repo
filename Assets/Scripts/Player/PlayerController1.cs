@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController1 : MonoBehaviour
 {
+
+    #region Variables
+
     [Header("Singleton")]
     public static PlayerController1 main = null;
 
@@ -15,6 +18,10 @@ public class PlayerController1 : MonoBehaviour
     public LookWithMouse lookWithMouse;
     public InventoryManager inventoryManager;
 
+    #endregion
+
+
+    #region MonoBehaviors
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +30,15 @@ public class PlayerController1 : MonoBehaviour
         //GetComponents();
     } // END Start
 
+    private void Update()
+    {
+        GetObjectToPickUp();
+    } // END Update
+
+    #endregion
+
+
+    #region Methods
 
     public void InitSingleton()
     {
@@ -36,13 +52,6 @@ public class PlayerController1 : MonoBehaviour
             Destroy(this);
         }
     } // END InitSingleton
-
-
-    private void Update()
-    {
-        GetObjectToPickUp();
-    } // END Update
-
 
     public GameObject GetObjectToPickUp()
     {
@@ -60,5 +69,7 @@ public class PlayerController1 : MonoBehaviour
         lookWithMouse = this.gameObject.GetComponent<LookWithMouse>();
         inventoryManager = this.gameObject.GetComponent<InventoryManager>();
     } // END GetComponents
+
+    #endregion
 
 } // END PlayerController
