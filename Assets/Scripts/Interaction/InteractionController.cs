@@ -31,25 +31,28 @@ public class InteractionController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
-            
+
             //Check if Interactable
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 20f) && hit.transform.root.GetComponent<IInteractable>() != null)
+            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 20f))
             {
-                Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * hit.distance, Color.green, 20f);
-
-                targetInteractable = hit.transform.root.GetComponent<IInteractable>();
-
-                //If not Equipable
-                if(hit.transform.root.GetComponent<IEquipable>() == null)
+                if (hit.transform.gameObject.GetComponent<Equipable>() != null)
                 {
-                    targetInteractable.OnInteracted();
-                }
-                //If Equipable
-                else
-                {
-                    targetEquipable = hit.transform.root.gameObject.GetComponent<IEquipable>();
-                    objectToPickUp = hit.transform.gameObject;
-                    targetEquipable.OnInteracted();
+                    Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * hit.distance, Color.green, 20f);
+
+                    targetInteractable = hit.transform.root.GetComponent<IInteractable>();
+
+                    //If not Equipable
+                    if (hit.transform.root.GetComponent<IEquipable>() == null)
+                    {
+                        targetInteractable.OnInteracted();
+                    }
+                    //If Equipable
+                    else
+                    {
+                        targetEquipable = hit.transform.root.gameObject.GetComponent<IEquipable>();
+                        objectToPickUp = hit.transform.gameObject;
+                        targetEquipable.OnInteracted();
+                    }
                 }
             }
             //Did not hit anything Interactable

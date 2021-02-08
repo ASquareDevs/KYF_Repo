@@ -9,6 +9,7 @@ public class Equipable : MonoBehaviour, IEquipable
 
     public void OnEquip()
     {
+        this.GetComponentInChildren<Rigidbody>().isKinematic = true;
         player.gameObject.GetComponent<InventoryManager>().PickUpEquipable();
         Debug.Log("Interacted with an IEquipable.  An Item was equipped");
     } // END OnEquip

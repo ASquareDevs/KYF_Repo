@@ -20,7 +20,7 @@ public class PlayerController1 : MonoBehaviour
     void Start()
     {
         InitSingleton();
-        GetComponents();
+        //GetComponents();
     } // END Start
 
 
