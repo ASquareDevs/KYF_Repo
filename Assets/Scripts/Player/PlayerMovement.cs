@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MoveDirection()
     {
+       // our move vector is determined by 
         move = transform.right * xHorizontalMove + transform.forward * zVerticalMove;
         //controller.Move(move * playerSpeed * Time.deltaTime);
         

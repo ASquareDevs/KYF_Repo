@@ -48,7 +48,7 @@ public class InventoryManager : MonoBehaviour
 
     private void GetEquipableObject()
     {
-        objectToPickUp = PlayerController1.main.GetObjectToPickUp();
+        //objectToPickUp = PlayerController1.main.GetObjectToPickUp();
     } // END GetEquipableObject
 
 

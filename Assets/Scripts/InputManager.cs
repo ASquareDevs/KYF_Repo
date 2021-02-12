@@ -5,51 +5,71 @@ using UnityEngine;
 public class InputManager : MonoBehaviour
 {
     #region Variables
-    //Player's Rigid Body
-    private Rigidbody rigiBody;
 
     [Header("Movement Control Options")]
-    public float movementSpeed = 20;
+    public float movementSpeed = 20f;
+    public float sprintSpeed = 5f;
     public float lookSpeed;
     private bool isSprinting = false;
     private bool isMovingForward = false;
 
-    [Header("Inputs Config")]
-    public KeyCode sprintKey;
+    [Header("Sprint Config and Components")]
+    public KeyCode SprintKey;
     public string sprintControllerInput;
 
-    [Header("Component hookups")]
-    public GameObject playerHead;
-    public CharacterController characterController;
+    [Header("Camera Toggle Config and Components")]
+    public KeyCode CameraToggleKey;
+    public string cameraToggleControllerInput;
+    private bool isFirstPerson = true;
 
+    [Header("References")]
+    public GameObject playerHead;
+    public GameObject thirdPersonCamera;
+    public PlayerStats playerStats;
+    public CharacterController characterController;
 
     [Header("X rotation Clamps")]
     public float maxVertacleRotation;
     public float minVertacleRotation;
 
-    //Current X angle of Camera
-    private float currentAngleX = 0;
-    //Current Y angle of whole player
-    private float currentAngleY = 0;
+    [Header("Gravity and Grounding")]
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float groundDistance = 0.4f;
+    private Vector3 playerVelocity;
+    public Transform groundCheck;
+    public LayerMask groundMask;
+    private bool isGrounded;
+    
+
+    private float currentAngleX = 0; //Current X angle of Camera
+    private float currentAngleY = 0; //Current Y angle of whole player
 
     #endregion
 
 
     #region Monobehaviors 
 
-    void Start()
+    private void Start()
     {
         Init();
-    }
-    void Update()
+    } // END Start
+
+
+    private void Update()
     {
         Sprint();
-    }
-    void FixedUpdate()
-    {
         PlayerMovement();
         PlayerLooking();
-    }
+        ToggleCamera();
+        ApplyGravity();
+        CheckIfGrounded();
+    } // END Update
+
+
+    private void FixedUpdate()
+    {
+        
+    } // END FixedUpdate
 
     #endregion
 
@@ -57,105 +77,160 @@ public class InputManager : MonoBehaviour
     #region Methods
 
     /// <summary>
-    /// Initilization of Character Controller
+    /// Initilization of the InputManager
     /// </summary>
-    void Init()
+    public void Init()
     {
-        rigiBody = this.GetComponent<Rigidbody>();
-        //lock the mouse for easier testing
-        Cursor.lockState = CursorLockMode.Locked;
+        GetComponents();
+
+        Cursor.lockState = CursorLockMode.Locked; //lock the mouse for easier testing
         currentAngleX = 0;
+
         if (movementSpeed == 0)
         {
             movementSpeed = 20;
         }
-        if (lookSpeed ==0)
+        if (lookSpeed == 0)
         {
             lookSpeed = 2;
         }
+    } // END Init
+
+
+    private void GetComponents()
+    {
+        playerStats = this.GetComponent<PlayerStats>();
         characterController = this.GetComponent<CharacterController>();
-    }
+    } // END GetComponents
+
 
     /// <summary>
     /// Player Movement & Rotation Fuctionality
+    /// Takes our right transform and multiplies by 1...-1
+    /// Same for forward transform
     /// </summary>
-    void PlayerMovement()
+    private void PlayerMovement()
     {
-        //Relative player movement based on  X & Y axis input * movementSpeed
-        float movementX = Input.GetAxis("Horizontal") * movementSpeed;
-        float movementZ = Input.GetAxis("Vertical") * movementSpeed;
-        if (isSprinting && movementZ >0)
+        // Are we moving positive or negative on the Axis?
+        float _movementX = Input.GetAxis("Horizontal");
+        float _movementZ = Input.GetAxis("Vertical");
+
+        // Takes our X transform and multiplies by _movementX to get our Left/Right strafe 
+        // Then adds our forward transform multiplied by our depth(Z)
+        Vector3 _playerMovement = transform.right * _movementX + transform.forward * _movementZ;
+        characterController.Move(_playerMovement * (movementSpeed + 10) * Time.deltaTime);
+
+        if (isSprinting && _movementZ > 0 || isSprinting && _movementZ < 0)
         {
-            movementZ = movementZ * 2;
+            characterController.Move(_playerMovement * (movementSpeed + sprintSpeed) * Time.deltaTime);
             isMovingForward = true;
         }
         else
         {
             isMovingForward = false;
         }
-        Vector3 playerMovment = new Vector3(movementX, 0, movementZ);
-        rigiBody.AddRelativeForce(playerMovment);  
-    }
 
-    public void PlayerLooking()
+        //Vector3 _playerMovment = new Vector3(_movementX, 0, _movementZ);
+        //rigiBody.AddRelativeForce(_playerMovment);
+
+    } // END PlayerMovement
+    private void ApplyGravity()
+    {
+        playerVelocity.y += gravity * Time.deltaTime;
+        characterController.Move(playerVelocity * Time.deltaTime);
+    } // END ApplyGravity
+
+    /// <summary>
+    /// Checks to see if we are colliding on a Walkable Layer
+    /// </summary>
+    private void CheckIfGrounded()
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (isGrounded && playerVelocity.y < 0)
+        {
+            playerVelocity.y = 0f;
+        }
+    } // END CheckIfGrounded
+    private void PlayerLooking()
     {
         //Mouse rotation
-        if (Input.GetAxis("Mouse Y") != 0 || Input.GetAxis("Mouse X") != 0)
+        if (Input.GetAxis("Mouse Y") != 0|| Input.GetAxis("Mouse X") != 0)
         {
             currentAngleX -= Input.GetAxis("Mouse Y") * lookSpeed;
             currentAngleX = Mathf.Clamp(currentAngleX, -90, 90);
-            //print(currentAngleX);
-            currentAngleY -= Input.GetAxis("Mouse X") * -lookSpeed;
+            currentAngleY += Input.GetAxis("Mouse X") * lookSpeed;
         }
+        //Gamepad rotation
+        //Uses custom inputs Pitch and Roll which will need to be set in inputmanager
         else if (Input.GetAxis("Pitch") != 0 || Input.GetAxis("Roll") != 0)
         {
-            //Gamepad rotation
-            //Uses custom inputs Pitch and Roll which will need to be set in inputmanager
             currentAngleX -= Input.GetAxis("Pitch") * lookSpeed;
             currentAngleX = Mathf.Clamp(currentAngleX, -90, 90);
-            currentAngleY -= Input.GetAxis("Roll") * lookSpeed;
+            currentAngleY += Input.GetAxis("Roll") * lookSpeed;
         }
+        //playerHead.transform.localRotation = Quaternion.Euler(currentAngleX, this.transform.rotation.y, 0);
+        //this.transform.rotation = Quaternion.Euler(0, currentAngleY, 0);
+        transform.eulerAngles = new Vector3(currentAngleX, currentAngleY, 0);
 
-        playerHead.transform.localRotation = Quaternion.Euler(currentAngleX, this.transform.rotation.y, 0);
-        this.transform.rotation = Quaternion.Euler(0, currentAngleY, 0);
-    }
+    } // END PlayerLooking
 
-    void Sprint()
+    
+    private void Sprint()
     {
-        if (Input.GetKey(sprintKey) && characterController.staminaCurrent >0 || Input.GetButton(sprintControllerInput) && characterController.staminaCurrent > 0)
+        if (Input.GetKey(SprintKey) && playerStats.staminaCurrent > 0 || Input.GetButton(sprintControllerInput) && playerStats.staminaCurrent > 0)
         {
             isSprinting = true;
             if (isMovingForward)
             {
-                characterController.staminaCurrent -= characterController.staminaDrainOverTime * Time.deltaTime;
+                playerStats.staminaCurrent -= playerStats.staminaDrainOverTime * Time.deltaTime;
             }
-            
         }
         else
         {
             isSprinting = false;
-            Invoke("RegainStamina", characterController.staminaCooldownValue);
+            Invoke("RegainStamina", playerStats.staminaCooldownValue);
         }
-    }
+    } // END Sprint
 
-    void RegainStamina()
+    
+    private void RegainStamina()
     {
         if (!isSprinting)
         {
-            if (characterController.staminaCurrent < characterController.staminaMax)
+            if (playerStats.staminaCurrent < playerStats.staminaMax)
             {
-                characterController.staminaCurrent += (characterController.staminaDrainOverTime * 2) * Time.deltaTime;
+                playerStats.staminaCurrent += (playerStats.staminaDrainOverTime * 2) * Time.deltaTime;
             }
-            else if (characterController.staminaCurrent > characterController.staminaMax)
+            else if (playerStats.staminaCurrent > playerStats.staminaMax)
             {
-                characterController.staminaCurrent = characterController.staminaMax;
+                playerStats.staminaCurrent = playerStats.staminaMax;
             }
         }
-    }
+    } // END RegainStamina
+    
+
+    /// <summary>
+    /// Intakes a keypress/buttonpress to switch perspectives
+    /// </summary>
+    private void ToggleCamera()
+    {
+        //Set up the first submit in the imputmanager to desired button on gampad
+        if (Input.GetKeyDown(CameraToggleKey) || Input.GetButtonDown(cameraToggleControllerInput))
+        {
+            if (isFirstPerson)
+            {
+                thirdPersonCamera.SetActive(true);
+                isFirstPerson = false;
+            }
+            else
+            {
+                thirdPersonCamera.SetActive(false);
+                isFirstPerson = true;
+            }
+        }
+    } // END ToggleCamera
 
     #endregion
 
-
-    #region Corutines
-    #endregion
-}
+} // END InputManager

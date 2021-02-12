@@ -23,12 +23,13 @@ public class PlayerController1 : MonoBehaviour
 
     #region MonoBehaviors
 
-    // Start is called before the first frame update
-    void Start()
+    
+    private void Start()
     {
         InitSingleton();
         //GetComponents();
     } // END Start
+
 
     private void Update()
     {
@@ -53,11 +54,12 @@ public class PlayerController1 : MonoBehaviour
         }
     } // END InitSingleton
 
+
     public GameObject GetObjectToPickUp()
     {
         inventoryManager.objectToPickUp = interactionController.objectToPickUp;
-        GameObject obj = inventoryManager.objectToPickUp;
-        return obj;
+        GameObject _obj = inventoryManager.objectToPickUp;
+        return _obj;
     } // END GetObjectToPickUp
 
 
