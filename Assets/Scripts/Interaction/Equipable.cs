@@ -7,8 +7,8 @@ public class Equipable : MonoBehaviour, IEquipable
     #region Variables
 
     public GameObject player;
-    [HideInInspector]
-    public Transform OriginalParent;
+    [HideInInspector] public Transform OriginalParent;
+
 
     #endregion
 
@@ -17,13 +17,16 @@ public class Equipable : MonoBehaviour, IEquipable
 
     void Start()
     {
-        Init();
-    }
+        //Init();
+
+    } // END Start
 
     void Update()
     {
-        CheckIfDropped();
-    }
+        //CheckIfDropped();
+
+    } // END Update
+
 
     #endregion
 
@@ -36,28 +39,33 @@ public class Equipable : MonoBehaviour, IEquipable
     void Init()
     {
         OriginalParent = this.GetComponentInParent<Transform>();
-    }
+    } // END Init
+    
 
     public void OnEquip()
     {
         player.gameObject.GetComponent<InventoryManager>().PickUpEquipable();
         Debug.Log("Interacted with an IEquipable.  An Item was equipped");
+
     } // END OnEquip
+
 
     public void OnInteracted()
     {
         OnEquip();
+
     } // END OnInteracted
+
 
     void CheckIfDropped()
     {
         //CHECK dosn't work need to find a way to check if not parented,and assign to parent
         if (this.transform.parent == null)
         {
-            Debug.Log("Object dropped reassigning to original Parent!");
+            //Debug.Log("Object dropped reassigning to original Parent!");
             this.transform.SetParent(OriginalParent);
         }
-    }
+    } // END CheckIfDropped
 
     #endregion
 

@@ -60,7 +60,8 @@ public class InteractionController : MonoBehaviour
                     else
                     {
                         targetEquipable = hit.transform.root.gameObject.GetComponent<IEquipable>();
-                        objectToPickUp = hit.transform.gameObject;
+                        SetObjectToPickUp(hit.transform.gameObject);
+
                         targetEquipable.OnInteracted();
                     }
                 }
@@ -76,6 +77,16 @@ public class InteractionController : MonoBehaviour
             }
         }
     } // END ReadForInteractable
+
+
+    public GameObject SetObjectToPickUp(GameObject _objectToPickUp)
+    {
+        //objectToPickUp = _objectToPickUp;
+        inventory.objectToPickUp = _objectToPickUp;
+        
+        GameObject _obj = inventory.objectToPickUp;
+        return _obj;
+    } // END GetObjectToPickUp
 
     #endregion
 

@@ -13,11 +13,12 @@ public class InventoryManager : MonoBehaviour
     public GameObject leftHand;
     public GameObject rightHand;
     public GameObject objectToPickUp = null;
+    public GameObject equippedObject;
     private bool isInLeftHand = false;
     private bool isInRightHand = false;
 
     [Header("Inventory Size")]
-    [SerializeField] private int _inventorySize = 1;
+    [SerializeField] private int inventorySize = 3;
 
     [Header("Inventories")]
     public List<GameObject> leftHandInventory = new List<GameObject>();
@@ -38,7 +39,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        GetEquipableObject();
+        
     } // END Update
 
     #endregion
@@ -46,10 +47,31 @@ public class InventoryManager : MonoBehaviour
 
     #region Methods
 
-    private void GetEquipableObject()
+
+    private void EquipLeftHand()
     {
-        //objectToPickUp = PlayerController1.main.GetObjectToPickUp();
-    } // END GetEquipableObject
+        objectToPickUp.transform.SetParent(leftHand.transform);
+        objectToPickUp.transform.localPosition = leftHand.transform.localPosition;
+        objectToPickUp.SetActive(true);
+        isInLeftHand = true;
+        Debug.Log("Picked up an Equipable with Left Hand.");
+    }
+
+
+    private void EquipRightHand()
+    {
+        objectToPickUp.transform.SetParent(rightHand.transform);
+        objectToPickUp.transform.localPosition = rightHand.transform.localPosition;
+        objectToPickUp.SetActive(true);
+        isInLeftHand = true;
+        Debug.Log("Picked up an Equipable with Left Hand.");
+    }
+
+
+    private void UnEquipLeftHand()
+    {
+
+    } // END UnEquipLeftHand
 
 
     //Puts the object in the appropriate hand
@@ -57,37 +79,51 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //If left hand is null (has no children)
-            if (leftHand.transform.childCount == 0 || isInLeftHand == false)
+            //If left hand is null (has no children) Equip Weapon
+            if (leftHand.transform.childCount == 0)
             {
-                objectToPickUp = PlayerController1.main.GetObjectToPickUp();
-                objectToPickUp.transform.SetParent(leftHand.transform);
-                objectToPickUp.transform.localPosition = leftHand.transform.localPosition;
-                objectToPickUp.SetActive(true);
-                isInLeftHand = true;
-                Debug.Log("Picked up an Equipable with Left Hand.");
+                EquipLeftHand();
             }
-            else
+            else //If hand is not null, we have something equipped, add it to inventory
             {
                 //- Check if list is full -
-                if(leftHandInventory.Count < _inventorySize)
+                if(leftHandInventory.Count < inventorySize)
                 {
                     //Place current equipped gameObject into inventory - Add to List -
-                    GameObject _equippedObject = objectToPickUp;
-                    leftHandInventory.Add(_equippedObject);
-                    _equippedObject.SetActive(false);
-                    //Destroy(objectToPickUp);
-                    //null the object so we can pick up another item
-                    //_equippedObject = null;
+                    equippedObject = objectToPickUp;
+                    leftHandInventory.Add(equippedObject);
+                    equippedObject.SetActive(false);
                     
-                    //objectToPickUp = null;
-
-                    Debug.Log(leftHandInventory);
                     //Equip newly selected gameObject
                     isInLeftHand = false;
+                    Instantiate(objectToPickUp, leftHand.transform);
+                    equippedObject = objectToPickUp;
+
+                    //null the object so we can pick up another item
+                    equippedObject = null;
+                    objectToPickUp = null;
                 }
                 else
                 {
+                    if (leftHand.transform.GetChild(0).gameObject.activeSelf)
+                    {
+                        leftHand.transform.GetChild(0).gameObject.SetActive(false);
+                        leftHand.transform.GetChild(1).gameObject.SetActive(true);
+                        Instantiate(leftHand.transform.GetChild(1).gameObject, leftHand.transform);
+                    }
+                    if (leftHand.transform.GetChild(1).gameObject.activeSelf)
+                    {
+                        leftHand.transform.GetChild(0).gameObject.SetActive(true);
+                        leftHand.transform.GetChild(1).gameObject.SetActive(false);
+                    }
+                    /*
+                    if (leftHandInventory[2].gameObject.activeSelf == true)
+                    {
+                        leftHandInventory[0].gameObject.SetActive(true);
+                        leftHandInventory[1].gameObject.SetActive(false);
+                        leftHandInventory[2].gameObject.SetActive(false);
+                    }
+                    */
                     Debug.Log("Invantory Full. Swaping items.");
                 }
                 //Else
@@ -100,17 +136,12 @@ public class InventoryManager : MonoBehaviour
             //If left hand is null (has no children)
             if (rightHand.transform.childCount == 0 || isInRightHand == false)
             {
-                objectToPickUp = PlayerController1.main.GetObjectToPickUp();
-                objectToPickUp.transform.SetParent(rightHand.transform);
-                objectToPickUp.transform.localPosition = rightHand.transform.localPosition;
-                objectToPickUp.SetActive(true);
-                isInRightHand = true;
-                Debug.Log("Picked up an Equipable with Right Hand.");
+                EquipRightHand();
             }
             else
             {
                 //- Check if list is full -
-                if (rightHandInventory.Count < _inventorySize)
+                if (rightHandInventory.Count < inventorySize)
                 {
                     //Place current equipped gameObject into inventory - Add to List -
                     GameObject _equippedObject = objectToPickUp;

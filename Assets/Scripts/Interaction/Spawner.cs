@@ -14,6 +14,7 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         Instantiate(equipable, spawnPoint);
+
     } // END Start
 
 } // END Spawner
