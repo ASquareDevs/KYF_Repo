@@ -128,6 +128,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2934076849806678272, guid: 418c01abab0e8fa4d838bea7733a5f75,
+        type: 3}
+      propertyPath: objectToPickUp
+      value: 
+      objectReference: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
+        type: 3}
     - target: {fileID: 2934076849806678288, guid: 418c01abab0e8fa4d838bea7733a5f75,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -325,7 +331,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 433675639}
-  - component: {fileID: 433675638}
   - component: {fileID: 433675637}
   m_Layer: 0
   m_Name: Spawner (3)
@@ -349,20 +354,6 @@ MonoBehaviour:
   equipable: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
     type: 3}
   spawnPoint: {fileID: 433675639}
---- !u!114 &433675638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 433675636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1697875872}
-  OriginalParent: {fileID: 0}
 --- !u!4 &433675639
 Transform:
   m_ObjectHideFlags: 0
@@ -386,7 +377,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 650750271}
-  - component: {fileID: 650750270}
   - component: {fileID: 650750269}
   m_Layer: 0
   m_Name: Spawner (5)
@@ -410,20 +400,6 @@ MonoBehaviour:
   equipable: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
     type: 3}
   spawnPoint: {fileID: 650750271}
---- !u!114 &650750270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 650750268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1697875872}
-  OriginalParent: {fileID: 0}
 --- !u!4 &650750271
 Transform:
   m_ObjectHideFlags: 0
@@ -651,7 +627,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 921172326}
-  - component: {fileID: 921172325}
   - component: {fileID: 921172324}
   m_Layer: 0
   m_Name: Spawner (1)
@@ -675,20 +650,6 @@ MonoBehaviour:
   equipable: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
     type: 3}
   spawnPoint: {fileID: 921172326}
---- !u!114 &921172325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 921172323}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1697875872}
-  OriginalParent: {fileID: 0}
 --- !u!4 &921172326
 Transform:
   m_ObjectHideFlags: 0
@@ -712,7 +673,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 925151494}
-  - component: {fileID: 925151493}
   - component: {fileID: 925151492}
   m_Layer: 0
   m_Name: Spawner (2)
@@ -736,20 +696,6 @@ MonoBehaviour:
   equipable: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
     type: 3}
   spawnPoint: {fileID: 925151494}
---- !u!114 &925151493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 925151491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1697875872}
-  OriginalParent: {fileID: 0}
 --- !u!4 &925151494
 Transform:
   m_ObjectHideFlags: 0
@@ -764,12 +710,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1697875872 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2934076849806678302, guid: 418c01abab0e8fa4d838bea7733a5f75,
-    type: 3}
-  m_PrefabInstance: {fileID: 75656229}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1739816789
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +719,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1739816792}
-  - component: {fileID: 1739816791}
   - component: {fileID: 1739816790}
   m_Layer: 0
   m_Name: Spawner
@@ -803,20 +742,6 @@ MonoBehaviour:
   equipable: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
     type: 3}
   spawnPoint: {fileID: 1739816792}
---- !u!114 &1739816791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1739816789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1697875872}
-  OriginalParent: {fileID: 0}
 --- !u!4 &1739816792
 Transform:
   m_ObjectHideFlags: 0
@@ -840,7 +765,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1794380443}
-  - component: {fileID: 1794380442}
   - component: {fileID: 1794380441}
   m_Layer: 0
   m_Name: Spawner (4)
@@ -864,20 +788,6 @@ MonoBehaviour:
   equipable: {fileID: 8410620004246713453, guid: 4137c30af352b4338a0c4678ecb6265a,
     type: 3}
   spawnPoint: {fileID: 1794380443}
---- !u!114 &1794380442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1794380440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1697875872}
-  OriginalParent: {fileID: 0}
 --- !u!4 &1794380443
 Transform:
   m_ObjectHideFlags: 0

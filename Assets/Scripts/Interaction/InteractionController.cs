@@ -45,16 +45,20 @@ public class InteractionController : MonoBehaviour
             //Check if Interactable
             if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 20f))
             {
-                if (hit.transform.gameObject.GetComponent<Equipable>() != null)
+                if (hit.transform.gameObject.GetComponent<IInteractable>() != null)
                 {
                     Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * hit.distance, Color.green, 20f);
 
                     targetInteractable = hit.transform.root.GetComponent<IInteractable>();
 
+                    targetInteractable.OnInteracted();
+
+                    /*
                     //If not Equipable
                     if (hit.transform.root.GetComponent<IEquipable>() == null)
                     {
                         targetInteractable.OnInteracted();
+                        Debug.Log("Got this far on Raycast");
                     }
                     //If Equipable
                     else
@@ -63,7 +67,9 @@ public class InteractionController : MonoBehaviour
                         SetObjectToPickUp(hit.transform.gameObject);
 
                         targetEquipable.OnInteracted();
+                        Debug.Log("Got this far on Raycast");
                     }
+                    */
                 }
             }
             //Did not hit anything Interactable
@@ -78,7 +84,7 @@ public class InteractionController : MonoBehaviour
         }
     } // END ReadForInteractable
 
-
+    /*
     public GameObject SetObjectToPickUp(GameObject _objectToPickUp)
     {
         //objectToPickUp = _objectToPickUp;
@@ -87,7 +93,7 @@ public class InteractionController : MonoBehaviour
         GameObject _obj = inventory.objectToPickUp;
         return _obj;
     } // END GetObjectToPickUp
-
+    */
     #endregion
 
 } //END InteractionController

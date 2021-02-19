@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Hands and Object to Equip")]
     public GameObject leftHand;
     public GameObject rightHand;
-    public GameObject objectToPickUp = null;
+    public GameObject objectToPickUp;
     public GameObject equippedObject;
     private bool isInLeftHand = false;
     private bool isInRightHand = false;
@@ -39,7 +39,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        
+        PickUpEquipable();
     } // END Update
 
     #endregion
@@ -50,11 +50,10 @@ public class InventoryManager : MonoBehaviour
 
     private void EquipLeftHand()
     {
-        objectToPickUp.transform.SetParent(leftHand.transform);
-        objectToPickUp.transform.localPosition = leftHand.transform.localPosition;
+        //objectToPickUp.transform.SetParent(leftHand.transform);
+        //objectToPickUp.transform.localPosition = leftHand.transform.localPosition;
         objectToPickUp.SetActive(true);
-        isInLeftHand = true;
-        Debug.Log("Picked up an Equipable with Left Hand.");
+        //Debug.Log("Picked up an Equipable with Left Hand.");
     }
 
 
@@ -100,11 +99,12 @@ public class InventoryManager : MonoBehaviour
                     equippedObject = objectToPickUp;
 
                     //null the object so we can pick up another item
-                    equippedObject = null;
-                    objectToPickUp = null;
+                    //equippedObject = null;
+                    //objectToPickUp = null;
                 }
                 else
                 {
+                    /*
                     if (leftHand.transform.GetChild(0).gameObject.activeSelf)
                     {
                         leftHand.transform.GetChild(0).gameObject.SetActive(false);

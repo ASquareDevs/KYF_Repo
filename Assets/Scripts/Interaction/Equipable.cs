@@ -7,6 +7,8 @@ public class Equipable : MonoBehaviour, IEquipable
     #region Variables
 
     public GameObject player;
+    public InventoryManager inventory;
+    public bool isInteracted;
     [HideInInspector] public Transform OriginalParent;
 
 
@@ -18,13 +20,17 @@ public class Equipable : MonoBehaviour, IEquipable
     void Start()
     {
         //Init();
-
+        inventory = player.GetComponent<InventoryManager>();
+        isInteracted = false;
+        //SetObjectToPickUp(this.gameObject);
     } // END Start
 
     void Update()
     {
-        //CheckIfDropped();
-
+        if(isInteracted)
+        {
+            inventory.objectToPickUp = this.gameObject;
+        }
     } // END Update
 
 
@@ -38,12 +44,23 @@ public class Equipable : MonoBehaviour, IEquipable
     /// </summary>
     void Init()
     {
-        OriginalParent = this.GetComponentInParent<Transform>();
+        
     } // END Init
-    
+
+
+    public GameObject SetObjectToPickUp(GameObject _objectToPickUp)
+    {
+        inventory.objectToPickUp = _objectToPickUp;
+
+        GameObject _obj = _objectToPickUp;
+        return _obj;
+    } // END GetObjectToPickUp
+
 
     public void OnEquip()
     {
+        isInteracted = true;
+        //player.gameObject.GetComponent<InventoryManager>().objectToPickUp = SetObjectToPickUp(this.gameObject);
         player.gameObject.GetComponent<InventoryManager>().PickUpEquipable();
         Debug.Log("Interacted with an IEquipable.  An Item was equipped");
 

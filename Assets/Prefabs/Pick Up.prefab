@@ -46,7 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d30710bd7d42224ea00e6fdab9f954e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 8516330529606660001, guid: acfdf616d33544e0694354e39428a114, type: 3}
+  player: {fileID: 2934076849806678302, guid: 418c01abab0e8fa4d838bea7733a5f75, type: 3}
+  OriginalParent: {fileID: 0}
 --- !u!33 &8410620004246713449
 MeshFilter:
   m_ObjectHideFlags: 0
